@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_01_183455) do
+ActiveRecord::Schema.define(version: 2021_06_01_190011) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "street"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 2021_06_01_183455) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.integer "user_id", null: false
+    t.string "category"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_enrollments_on_game_id"
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -37,6 +47,12 @@ ActiveRecord::Schema.define(version: 2021_06_01_183455) do
     t.index ["user_id"], name: "index_events_users_on_user_id"
   end
 
+  create_table "games", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "body"
@@ -51,6 +67,8 @@ ActiveRecord::Schema.define(version: 2021_06_01_183455) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "enrollments", "games"
+  add_foreign_key "enrollments", "users"
   add_foreign_key "events_users", "events"
   add_foreign_key "events_users", "users"
   add_foreign_key "posts", "users"
